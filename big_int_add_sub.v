@@ -1,4 +1,4 @@
-module big_int
+module biginteger
 
 pub fn (big BigInteger) negative() BigInteger {
 	if big.sign == .zero {

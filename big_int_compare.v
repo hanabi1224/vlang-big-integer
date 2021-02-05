@@ -1,4 +1,4 @@
-module big_int
+module biginteger
 
 pub fn (a BigInteger) == (b BigInteger) bool {
 	if a.sign != b.sign || a.bits.len != b.bits.len {
