@@ -1,4 +1,4 @@
-module big_int
+module biginteger
 
 enum BigIntegerSign {
 	negative
