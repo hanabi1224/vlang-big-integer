@@ -1,5 +1,9 @@
 module biginteger
 
+const (
+	shift_steps = [u64(32), 16, 8, 4, 2, 1]
+)
+
 pub fn (a BigInteger) / (b BigInteger) BigInteger {
 	quotient, _ := div_mod(a, b) or { return zero }
 	return quotient
@@ -43,23 +47,26 @@ pub fn div_mod(a BigInteger, b BigInteger) ?(BigInteger, BigInteger) {
 
 			mut to_minus := b_pos
 			mut quotient_guess := one
-			for {
-				to_minus_tmp := to_minus.lshift(32)
-				if to_minus_tmp > remainder {
-					break
+
+			for step in biginteger.shift_steps {
+				for {
+					to_minus_tmp := to_minus.lshift(step)
+					if to_minus_tmp > remainder {
+						break
+					}
+					to_minus = to_minus_tmp
+					quotient_guess = quotient_guess.lshift(step)
 				}
-				to_minus = to_minus_tmp
-				quotient_guess = quotient_guess.lshift(32)
 			}
 
-			for {
-				to_minus_tmp := to_minus.lshift(1)
-				if to_minus_tmp > remainder {
-					break
-				}
-				to_minus = to_minus_tmp
-				quotient_guess = quotient_guess.lshift(1)
-			}
+			// for {
+			// 	to_minus_tmp := to_minus.lshift(1)
+			// 	if to_minus_tmp > remainder {
+			// 		break
+			// 	}
+			// 	to_minus = to_minus_tmp
+			// 	quotient_guess = quotient_guess.lshift(1)
+			// }
 
 			remainder = remainder - to_minus
 			quotient = quotient_guess
