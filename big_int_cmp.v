@@ -15,10 +15,10 @@ pub fn (a BigInteger) == (b BigInteger) bool {
 }
 
 pub fn (a BigInteger) < (b BigInteger) bool {
-	return compare(a, b) < 0
+	return cmp(a, b) < 0
 }
 
-pub fn compare(a BigInteger, b BigInteger) int {
+pub fn cmp(a BigInteger, b BigInteger) int {
 	if b.sign == .positive {
 		if a.sign == .positive {
 			if a.bits.len < b.bits.len {
@@ -45,7 +45,7 @@ pub fn compare(a BigInteger, b BigInteger) int {
 		if a.sign == .zero && b.sign == .zero {
 			return 0
 		} else if a.sign == .negative {
-			return compare(b.negative(), a.negative())
+			return cmp(b.negative(), a.negative())
 		} else {
 			return 1
 		}
