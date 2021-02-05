@@ -1,5 +1,6 @@
 module biginteger
 
+[direct_array_access]
 pub fn (a BigInteger) * (b BigInteger) BigInteger {
 	if a.sign == .zero || b.sign == .zero {
 		return zero
@@ -10,7 +11,6 @@ pub fn (a BigInteger) * (b BigInteger) BigInteger {
 		negative := a.sign != b.sign
 		array_cap := int(a_len + b_len)
 		mut bits := []u32{len: array_cap, init: 0}
-
 		for i := 0; i < a_len; i++ {
 			mut tmp_num := u32(0)
 			for j := 0; j < b_len; j++ {
