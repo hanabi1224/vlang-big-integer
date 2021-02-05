@@ -24,11 +24,7 @@ pub fn (a BigInteger) * (b BigInteger) BigInteger {
 			bits[i + b_len] = tmp_num
 		}
 
-		for i := bits.len - 1; i >= 0; i-- {
-			if bits[i] == 0 {
-				bits.delete_last()
-			}
-		}
+		trim_msb_zeros(mut bits)
 
 		return {
 			sign: if negative {

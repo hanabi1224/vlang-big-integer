@@ -40,6 +40,30 @@ pub fn div_mod(a BigInteger, b BigInteger) ?(BigInteger, BigInteger) {
 			remainder = a_pos
 		} else {
 			remainder = a_pos
+
+			mut to_minus := b_pos
+			mut quotient_guess := one
+			for {
+				to_minus_tmp := to_minus.lshift(32)
+				if to_minus_tmp > remainder {
+					break
+				}
+				to_minus = to_minus_tmp
+				quotient_guess = quotient_guess.lshift(32)
+			}
+
+			for {
+				to_minus_tmp := to_minus.lshift(1)
+				if to_minus_tmp > remainder {
+					break
+				}
+				to_minus = to_minus_tmp
+				quotient_guess = quotient_guess.lshift(1)
+			}
+
+			remainder = remainder - to_minus
+			quotient = quotient_guess
+
 			for compare(remainder, b_pos) >= 0 {
 				remainder = remainder - b_pos
 				quotient = quotient + one
