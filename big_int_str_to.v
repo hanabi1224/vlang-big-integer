@@ -6,7 +6,6 @@ fn (big BigInteger) str() string {
 	if big.sign == .zero {
 		return '0'
 	}
-	// println('[$big.sign]$big.bits')
 	// TODO: optimize init size
 	mut builder := strings.new_builder(1)
 	if big.sign == .negative {
@@ -52,6 +51,5 @@ fn (big BigInteger) str() string {
 
 	builder.write(txt)
 	ret := builder.str()
-	// println(ret)
 	return ret
 }
