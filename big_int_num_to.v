@@ -12,3 +12,16 @@ pub fn (big BigInteger) int() int {
 		-int_val
 	}
 }
+
+pub fn (big BigInteger) u64() u64 {
+	if big.sign == .zero {
+		return 0
+	}
+
+	mut val := u64(big.bits[0])
+	if big.bits.len > 1 {
+		val = val | (big.bits[1] << 32)
+	}
+
+	return val
+}

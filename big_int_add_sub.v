@@ -74,7 +74,6 @@ pub fn substract(a BigInteger, b BigInteger) BigInteger {
 		if a.bits.len >= b.bits.len {
 			bits = add_a_b_length_asc(b.bits, a.bits)
 		} else {
-			println('here2 a:$a, b:$b')
 			return substract(b, a).negative()
 		}
 
