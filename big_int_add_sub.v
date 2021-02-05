@@ -107,6 +107,7 @@ pub fn substract(a BigInteger, b BigInteger) BigInteger {
 }
 
 // length of a is ganranteed to be smaller than b
+[direct_array_access]
 fn add_a_b_length_asc(a []u32, b []u32) []u32 {
 	mut i := 0
 	mut num_tmp := u64(0)
@@ -132,6 +133,7 @@ fn add_a_b_length_asc(a []u32, b []u32) []u32 {
 	return result
 }
 
+[direct_array_access]
 fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSign) {
 	mut i := 0
 	mut result := []u32{len: a.len + 1}
