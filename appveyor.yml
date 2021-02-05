@@ -1,0 +1,19 @@
+version: 1.0.{build}
+image: Ubuntu2004
+pull_requests:
+    do_not_increment_build_number: true
+branches:
+    only:
+        - main
+build: off
+install:
+    - git clone https://github.com/vlang/v /tmp/vlang
+    - pushd /tmp/vlang
+    - make && ./v -version
+    - sudo ./v symlink
+    - popd
+    - v -version
+build_script:
+    - v -prod build .
+test_script:
+    - v -stats -prod test .
