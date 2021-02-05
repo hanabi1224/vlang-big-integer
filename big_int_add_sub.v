@@ -25,7 +25,7 @@ pub fn add(a BigInteger, b BigInteger) BigInteger {
 	} else if b.sign == .zero {
 		return a
 	} else if a.sign == b.sign {
-		mut bits := []u32{}
+		mut bits := []u32{len: 0}
 		if a.bits.len > b.bits.len {
 			return b + a
 		} else {
@@ -37,7 +37,7 @@ pub fn add(a BigInteger, b BigInteger) BigInteger {
 			bits: bits
 		}
 	} else {
-		mut bits := []u32{}
+		mut bits := []u32{len: 0}
 		mut sign := BigIntegerSign.zero
 		if a.bits.len >= b.bits.len {
 			bits, sign = sub_a_b_length_desc(a.bits, b.bits, if a.sign == BigIntegerSign.negative {
@@ -70,7 +70,7 @@ pub fn substract(a BigInteger, b BigInteger) BigInteger {
 	} else if b.sign == .zero {
 		return a
 	} else if a.sign != b.sign {
-		mut bits := []u32{}
+		mut bits := []u32{len: 0}
 		if a.bits.len >= b.bits.len {
 			bits = add_a_b_length_asc(b.bits, a.bits)
 		} else {
@@ -83,7 +83,7 @@ pub fn substract(a BigInteger, b BigInteger) BigInteger {
 			bits: bits
 		}
 	} else {
-		mut bits := []u32{}
+		mut bits := []u32{len: 0}
 		mut sign := BigIntegerSign.zero
 		if a.bits.len >= b.bits.len {
 			bits, sign = sub_a_b_length_desc(a.bits, b.bits, if a.sign == BigIntegerSign.negative {
