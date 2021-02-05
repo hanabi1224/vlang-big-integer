@@ -22,7 +22,7 @@ fn (big BigInteger) str() string {
 	}
 
 	mut remainder := bits[0]
-	for remainder > 0 {
+	for {
 		for i := bits.len - 1; i > 0; i-- {
 			tmp_bits := bits[i]
 			tmp_bits_mod := tmp_bits % base
@@ -43,6 +43,7 @@ fn (big BigInteger) str() string {
 		remainder = d0 / base
 
 		if mod == 0 && remainder == 0 && bits.len == 1 {
+			break
 		} else {
 			txt = '$mod$txt'
 			bits[0] = remainder
