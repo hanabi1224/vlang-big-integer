@@ -29,7 +29,7 @@ fn test_from_str() {
 }
 
 fn test_lshift() {
-	a := from_str('12345678901234567890') or { return }
+	a := from_str('12_345_678_901_234_567_890') or { return }
 	assert a.lshift(2).str() == '49382715604938271560'
 	assert a.lshift(31).str() == '26512143563859841556120862720'
 	assert a.lshift(32).str() == '53024287127719683112241725440'

@@ -71,7 +71,7 @@ pub fn div_mod(a BigInteger, b BigInteger) ?(BigInteger, BigInteger) {
 			remainder = remainder - to_minus
 			quotient = quotient_guess
 
-			for compare(remainder, b_pos) >= 0 {
+			for cmp(remainder, b_pos) >= 0 {
 				remainder = remainder - b_pos
 				quotient = quotient + one
 			}

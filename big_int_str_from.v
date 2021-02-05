@@ -21,7 +21,7 @@ pub fn from_str(str string) ?BigInteger {
 		}
 	}
 
-	mut num := from_u32(0)
+	mut num := zero
 	mut times := one
 	for i := digits.len - 1; i >= 0; i-- {
 		d := digits[i]
