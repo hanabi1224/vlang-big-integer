@@ -14,4 +14,4 @@ install:
     - popd
     - v -version
 build_script:
-    - v -stats test .
+    - v -prod -stats test .
