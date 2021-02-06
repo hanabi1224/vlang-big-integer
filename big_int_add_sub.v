@@ -1,5 +1,10 @@
 module biginteger
 
+const (
+	two_pow_32         = 1 << 32
+	two_pow_32_minus_1 = (1 << 32) - 1
+)
+
 pub fn (big BigInteger) negative() BigInteger {
 	if big.sign == .zero {
 		return big
@@ -110,7 +115,7 @@ pub fn substract(a BigInteger, b BigInteger) BigInteger {
 fn add_a_b_length_asc(a []u32, b []u32) []u32 {
 	mut i := 0
 	mut num_tmp := u64(0)
-	mut result := []u32{len: b.len + 1}
+	mut result := []u32{len: b.len}
 	for ; i < a.len; i++ {
 		num := u64(a[i]) + u64(b[i]) + num_tmp
 		num_tmp = num >> 32
@@ -124,9 +129,7 @@ fn add_a_b_length_asc(a []u32, b []u32) []u32 {
 	}
 
 	if num_tmp > 0 {
-		result[i] = u32(num_tmp)
-	} else {
-		result.delete_last()
+		result << u32(num_tmp)
 	}
 
 	return result
@@ -135,7 +138,8 @@ fn add_a_b_length_asc(a []u32, b []u32) []u32 {
 [direct_array_access]
 fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSign) {
 	mut i := 0
-	mut result := []u32{len: a.len + 1}
+	// mut result := []u32{len: a.len + 1}
+	mut result := a.clone()
 	mut borrow_next := false
 	for ; i < b.len; i++ {
 		v1 := i64(a[i])
@@ -148,34 +152,31 @@ fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSi
 
 		if diff < 0 {
 			borrow_next = true
-			diff += (1 << 32)
+			diff += biginteger.two_pow_32
 		}
 
 		result[i] = u32(diff)
 	}
 
-	for ; i < a.len; i++ {
-		mut diff := i64(a[i])
-		if borrow_next {
-			diff = diff - 1
-			borrow_next = false
-		}
-
-		if diff < 0 {
+	for ; borrow_next && i < a.len; i++ {
+		a_i := a[i]
+		if a_i == 0 {
 			borrow_next = true
-			diff += (1 << 32)
+			result[i] = biginteger.two_pow_32_minus_1
+		} else {
+			borrow_next = false
+			result[i] = a_i - 1
 		}
-
-		result[i] = u32(diff)
 	}
 
 	mut sign := BigIntegerSign.positive
 	if borrow_next {
 		sign = BigIntegerSign.negative
-		result[i] = 1
+		// result[i] = 1
+		result << 1
 	} else {
 		trim_msb_zeros(mut result)
-		if i < 0 {
+		if result[0] == 0 {
 			sign = BigIntegerSign.zero
 		}
 	}
