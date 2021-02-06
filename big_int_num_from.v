@@ -26,6 +26,21 @@ pub fn from_u64(i u64) BigInteger {
 	return from_u64_and_sign(i, BigIntegerSign.positive)
 }
 
+pub fn from_bits(bits []u32) BigInteger {
+	return from_bits_and_sign(bits, .positive)
+}
+
+pub fn from_bits_and_sign(bits []u32, sign BigIntegerSign) BigInteger {
+	if sign == .zero || bits.len < 1 || (bits.len == 1 && bits[0] == 0) {
+		return zero
+	}
+
+	return {
+		sign: sign
+		bits: bits
+	}
+}
+
 fn from_u64_and_sign(i u64, sign BigIntegerSign) BigInteger {
 	if i == 0 || sign == .zero {
 		return zero

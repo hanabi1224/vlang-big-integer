@@ -1,5 +1,7 @@
 module biginteger
 
+import math.bits
+
 pub fn (a BigInteger) / (b BigInteger) BigInteger {
 	quotient, _ := div_mod(a, b) or { return zero }
 	return quotient
@@ -44,10 +46,11 @@ pub fn div_mod(a BigInteger, b BigInteger) ?(BigInteger, BigInteger) {
 }
 
 fn div_mod_inner(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigInteger) {
-	if a_pos == b_pos {
-		return one, zero
-	} else if a_pos < b_pos {
+	cmp_result := cmp(a_pos, b_pos)
+	if cmp_result < 0 {
 		return zero, a_pos
+	} else if cmp_result == 0 {
+		return one, zero
 	} else {
 		return div_mod_inner_core(a_pos, b_pos)
 	}
@@ -56,25 +59,35 @@ fn div_mod_inner(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigInteger) {
 [inline]
 fn div_mod_inner_core(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigInteger) {
 	mut quotient := zero
-	mut remainder := zero
-
-	leading_zeros_a := a_pos.leading_zeros()
 	leading_zeros_b := b_pos.leading_zeros()
 
-	remainder = a_pos
-	mut q_shift := u64(remainder.bits.len - b_pos.bits.len)
-
-	mut q_shift_bits := (32 * q_shift) + leading_zeros_b - leading_zeros_a
-	if q_shift_bits > 1 {
+	mut remainder_bits := a_pos.bits
+	mut remainder_sign := BigIntegerSign.positive
+	divider_bits := b_pos.bits
+	mut cmp_bits_result := 1
+	for cmp_bits_result > 0 {
+		q_shift := u64(remainder_bits.len - divider_bits.len)
+		mut q_shift_bits := (32 * q_shift) + leading_zeros_b - u64(bits.leading_zeros_32(remainder_bits.last()))
+		if q_shift_bits < 2 {
+			break
+		}
 		q_shift_bits = q_shift_bits - 1
-		remainder = remainder - b_pos.lshift(q_shift_bits)
-		quotient = one.lshift(q_shift_bits)
+		quotient = quotient + one.lshift(q_shift_bits)
+		to_minus := b_pos.lshift(q_shift_bits)
+		remainder_bits, remainder_sign = sub_a_b_length_desc(remainder_bits, to_minus.bits,
+			false)
+		if remainder_sign == BigIntegerSign.zero {
+			return quotient, zero
+		}
+
+		cmp_bits_result = cmp_bits(remainder_bits, divider_bits)
 	}
 
-	for cmp(remainder, b_pos) >= 0 {
-		remainder = remainder - b_pos
+	for cmp_bits_result >= 0 {
+		remainder_bits, _ = sub_a_b_length_desc(remainder_bits, divider_bits, false)
 		quotient = quotient + one
+		cmp_bits_result = cmp_bits(remainder_bits, divider_bits)
 	}
 
-	return quotient, remainder
+	return quotient, from_bits(remainder_bits)
 }
