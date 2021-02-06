@@ -1,11 +1,17 @@
 module biginteger
 
 pub fn (big BigInteger) lshift(d u64) BigInteger {
+	if d == 0 {
+		return big
+	}
+
 	d_q := d / 32
 	d_r := d % 32
 	mut result_bits := big.bits.clone()
-	for _ in 0 .. d_q {
-		result_bits.prepend(0)
+	if d_q > 0 {
+		for _ in 0 .. d_q {
+			result_bits.prepend(0)
+		}
 	}
 	if d_r > 0 {
 		tmp_next := lshift_unsafe(mut result_bits, d_q, d_r)
@@ -17,6 +23,22 @@ pub fn (big BigInteger) lshift(d u64) BigInteger {
 	return {
 		sign: big.sign
 		bits: result_bits
+	}
+}
+
+fn (mut big BigInteger) lshift_inner_in_place(d u64) {
+	d_q := d / 32
+	d_r := d % 32
+	if d_q > 0 {
+		for _ in 0 .. d_q {
+			big.prepend_bit(0)
+		}
+	}
+	if d_r > 0 {
+		tmp_next := lshift_unsafe(mut big.bits, d_q, d_r)
+		if tmp_next > 0 {
+			big.append_bit(tmp_next)
+		}
 	}
 }
 
@@ -34,19 +56,47 @@ fn lshift_unsafe(mut result_bits []u32, q u64, r u64) u32 {
 }
 
 pub fn (big BigInteger) rshift(d u64) BigInteger {
+	if d == 0 {
+		return big
+	}
+
 	d_q := d / 32
 	d_r := d % 32
-	bits_len_shift := if d_r == 0 { d_q } else { d_q + 1 }
-	if big.bits.len <= bits_len_shift {
-		return zero
+
+	if big.bits.len <= d_q {
+		return if big.sign == .negative {
+			minus_one
+		} else {
+			zero
+		}
 	}
 
 	mut result_bits := big.bits[d_q..].clone()
+
 	if d_r > 0 {
 		rshift_unsafe(mut result_bits, d_q, d_r)
 	}
 
 	trim_msb_zeros(mut result_bits)
+
+	if result_bits.len == 1 && result_bits[0] == 0 {
+		return if big.sign == .negative {
+			minus_one
+		} else {
+			zero
+		}
+	}
+
+	if big.sign == .negative {
+		return {
+			sign: big.sign
+			bits: result_bits
+		} - one
+	}
+
+	if result_bits.len < 1 {
+		return zero
+	}
 
 	return {
 		sign: big.sign

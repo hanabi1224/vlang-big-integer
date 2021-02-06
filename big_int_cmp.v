@@ -21,23 +21,7 @@ pub fn (a BigInteger) < (b BigInteger) bool {
 pub fn cmp(a BigInteger, b BigInteger) int {
 	if b.sign == .positive {
 		if a.sign == .positive {
-			if a.bits.len < b.bits.len {
-				return -1
-			} else if a.bits.len > b.bits.len {
-				return 1
-			} else {
-				for i := a.bits.len - 1; i >= 0; i-- {
-					digit_a := a.bits[i]
-					digit_b := b.bits[i]
-					if digit_a < digit_b {
-						return -1
-					} else if digit_a > digit_b {
-						return 1
-					}
-				}
-
-				return 0
-			}
+			return cmp_bits(a.bits, b.bits)
 		} else {
 			return -1
 		}
@@ -49,5 +33,25 @@ pub fn cmp(a BigInteger, b BigInteger) int {
 		} else {
 			return 1
 		}
+	}
+}
+
+fn cmp_bits(a []u32, b []u32) int {
+	if a.len < b.len {
+		return -1
+	} else if a.len > b.len {
+		return 1
+	} else {
+		for i := a.len - 1; i >= 0; i-- {
+			digit_a := a[i]
+			digit_b := b[i]
+			if digit_a < digit_b {
+				return -1
+			} else if digit_a > digit_b {
+				return 1
+			}
+		}
+
+		return 0
 	}
 }
