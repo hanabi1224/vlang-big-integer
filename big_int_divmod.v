@@ -61,7 +61,7 @@ fn div_mod_inner_core(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigIntege
 	mut quotient := zero
 	leading_zeros_b := b_pos.leading_zeros()
 
-	mut remainder_bits := a_pos.bits
+	mut remainder_bits := a_pos.bits.clone()
 	mut remainder_sign := BigIntegerSign.positive
 	divider_bits := b_pos.bits
 	mut cmp_bits_result := 1
@@ -74,8 +74,7 @@ fn div_mod_inner_core(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigIntege
 		q_shift_bits = q_shift_bits - 1
 		quotient = quotient + one.lshift(q_shift_bits)
 		to_minus := b_pos.lshift(q_shift_bits)
-		remainder_bits, remainder_sign = sub_a_b_length_desc(remainder_bits, to_minus.bits,
-			false)
+		remainder_sign = sub_mut_a_b_length_desc(mut remainder_bits, to_minus.bits, false)
 		if remainder_sign == BigIntegerSign.zero {
 			return quotient, zero
 		}
@@ -84,7 +83,7 @@ fn div_mod_inner_core(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigIntege
 	}
 
 	for cmp_bits_result >= 0 {
-		remainder_bits, _ = sub_a_b_length_desc(remainder_bits, divider_bits, false)
+		_ = sub_mut_a_b_length_desc(mut remainder_bits, divider_bits, false)
 		quotient = quotient + one
 		cmp_bits_result = cmp_bits(remainder_bits, divider_bits)
 	}
