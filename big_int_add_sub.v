@@ -137,9 +137,14 @@ fn add_a_b_length_asc(a []u32, b []u32) []u32 {
 
 [direct_array_access]
 fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSign) {
-	mut i := 0
-	// mut result := []u32{len: a.len + 1}
 	mut result := a.clone()
+	sign := sub_mut_a_b_length_desc(mut result, b, reverse_sign)
+	return result, sign
+}
+
+[direct_array_access]
+fn sub_mut_a_b_length_desc(mut a []u32, b []u32, reverse_sign bool) BigIntegerSign {
+	mut i := 0
 	mut borrow_next := false
 	for ; i < b.len; i++ {
 		v1 := i64(a[i])
@@ -155,28 +160,27 @@ fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSi
 			diff += biginteger.two_pow_32
 		}
 
-		result[i] = u32(diff)
+		a[i] = u32(diff)
 	}
 
 	for ; borrow_next && i < a.len; i++ {
 		a_i := a[i]
 		if a_i == 0 {
 			borrow_next = true
-			result[i] = biginteger.two_pow_32_minus_1
+			a[i] = biginteger.two_pow_32_minus_1
 		} else {
 			borrow_next = false
-			result[i] = a_i - 1
+			a[i] = a_i - 1
 		}
 	}
 
 	mut sign := BigIntegerSign.positive
 	if borrow_next {
 		sign = BigIntegerSign.negative
-		// result[i] = 1
-		result << 1
+		a << 1
 	} else {
-		trim_msb_zeros(mut result)
-		if result[0] == 0 {
+		trim_msb_zeros(mut a)
+		if a.len < 1 || (a.len == 1 && a[0] == 0) {
 			sign = BigIntegerSign.zero
 		}
 	}
@@ -189,5 +193,5 @@ fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSi
 		}
 	}
 
-	return result, sign
+	return sign
 }
