@@ -138,7 +138,6 @@ fn add_a_b_length_asc(a []u32, b []u32) []u32 {
 [direct_array_access]
 fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSign) {
 	mut i := 0
-	// mut result := []u32{len: a.len + 1}
 	mut result := a.clone()
 	mut borrow_next := false
 	for ; i < b.len; i++ {
@@ -172,11 +171,10 @@ fn sub_a_b_length_desc(a []u32, b []u32, reverse_sign bool) ([]u32, BigIntegerSi
 	mut sign := BigIntegerSign.positive
 	if borrow_next {
 		sign = BigIntegerSign.negative
-		// result[i] = 1
 		result << 1
 	} else {
 		trim_msb_zeros(mut result)
-		if result[0] == 0 {
+		if result.len < 1 || (result.len == 1 && result[0] == 0) {
 			sign = BigIntegerSign.zero
 		}
 	}
