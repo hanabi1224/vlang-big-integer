@@ -2,7 +2,7 @@ module biginteger
 
 import strings
 
-fn (big BigInteger) str() string {
+pub fn (big BigInteger) str() string {
 	if big.sign == .zero {
 		return '0'
 	}
