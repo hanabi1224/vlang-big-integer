@@ -7,17 +7,17 @@ branches:
         - main
 build: off
 install:
-    - dir "C:\Program Files\LLVM\bin"
-    - dir "C:\Program Files\LLVM\lib"
-    - set LLVM_SYS_110_PREFIX="C:\Program Files\LLVM\"
-    - echo %LLVM_SYS_110_PREFIX%
+    # - dir "C:\Program Files\LLVM\bin"
+    # - dir "C:\Program Files\LLVM\lib"
+    # - set LLVM_SYS_110_PREFIX="C:\Program Files\LLVM\"
+    # - echo %LLVM_SYS_110_PREFIX%
     - ps: iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
     - scoop install rustup
     - refreshenv
     - rustup default stable
-    - pushd llvm-example
-    - cargo run --release
-    - popd
+    # - pushd llvm-example
+    # - cargo run --release
+    # - popd
     - md build\Release\include
     - set LLVM_SYS_110_PREFIX=%cd%\build\Release
     - echo %LLVM_SYS_110_PREFIX%
@@ -39,7 +39,7 @@ build_script:
         -DLLVM_ENABLE_ZLIB=OFF
         -DLLVM_ENABLE_TERMINFO=OFF
         ./../llvm-11.1.0.src/
-    - msbuild -m /p:Configuration=Release llvm-headers.vcxproj
+    - msbuild -m /p:Configuration=Release INSTALL.vcxproj
     - dir Release\lib
     - dir Release\bin
     - cp -r include\llvm Release\include
