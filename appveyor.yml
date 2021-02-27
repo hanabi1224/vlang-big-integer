@@ -14,6 +14,20 @@ install:
 build_script:
     - md build
     - pushd build
-    - cmake.exe ./../llvm-11.1.0.src/
+    - >-
+        cmake.exe
+        -DCMAKE_BUILD_TYPE=Release
+        -DLLVM_TARGETS_TO_BUILD="X86"
+        -DLLVM_INCLUDE_TOOLS=ON
+        -DLLVM_INCLUDE_EXAMPLES=OFF
+        -DLLVM_INCLUDE_TESTS=OFF
+        -DLLVM_INCLUDE_GO_TESTS=OFF
+        -DLLVM_INCLUDE_UTILS=OFF
+        -DLLVM_ENABLE_ZLIB=OFF
+        -DLLVM_ENABLE_TERMINFO=OFF
+        ./../llvm-11.1.0.src/
     - msbuild -m /p:Configuration=Release llvm-headers.vcxproj
     - popd
+artifacts:
+    - path: build/Release/**/*
+      name: libs
