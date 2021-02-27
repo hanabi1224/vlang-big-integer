@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Ubuntu2004
+image: Visual Studio 2019
 pull_requests:
     do_not_increment_build_number: true
 branches:
@@ -7,11 +7,13 @@ branches:
         - main
 build: off
 install:
-    - git clone https://github.com/vlang/v /tmp/vlang
-    - pushd /tmp/vlang
-    - make && ./v -version
-    - sudo ./v symlink
-    - popd
-    - v -version
+    - wget https://github.com/llvm/llvm-project/releases/download/llvmorg-11.1.0/llvm-11.1.0.src.tar.xz
+    - 7z e -y llvm-11.1.0.src.tar.xz
+    - 7z x -y llvm-11.1.0.src.tar
+    - where cmake
 build_script:
-    - v -prod -stats test .
+    - md build
+    - pushd build
+    - cmake.exe ./../llvm-11.1.0.src/
+    - msbuild -m /p:Configuration=Release llvm-headers.vcxproj
+    - popd
