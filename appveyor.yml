@@ -11,7 +11,7 @@ install:
     - 7z e -y llvm-11.1.0.src.tar.xz
     - 7z x -y llvm-11.1.0.src.tar
     - md build\Release\include
-    - cp -r include\llvm-c build\Release\include
+    - cp -r llvm-11.1.0.src\include\llvm-c build\Release\include
 build_script:
     - pushd build
     - >-
