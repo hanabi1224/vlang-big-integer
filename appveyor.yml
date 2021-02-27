@@ -9,7 +9,6 @@ build: off
 install:
     - dir "C:\Program Files\LLVM\bin"
     - dir "C:\Program Files\LLVM\lib"
-    - dir C:\Libraries\llvm-5.0.0
     - set LLVM_SYS_110_PREFIX="C:\Program Files\LLVM\"
     - echo %LLVM_SYS_110_PREFIX%
     - pushd llvm-example
@@ -41,6 +40,8 @@ build_script:
     - dir Release\bin
     - cp -r include\llvm Release\include
     - 7z a llvm-11.1.0-windows.zip Release
-    # - popd
+    - popd
+    - pushd llvm-example
+    - cargo run --release
 artifacts:
-    - path: llvm-11.1.0-windows.zip
+    - path: build\llvm-11.1.0-windows.zip
