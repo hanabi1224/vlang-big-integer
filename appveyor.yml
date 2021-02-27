@@ -10,14 +10,13 @@ install:
     - curl -O -L https://github.com/llvm/llvm-project/releases/download/llvmorg-11.1.0/llvm-11.1.0.src.tar.xz
     - 7z e -y llvm-11.1.0.src.tar.xz
     - 7z x -y llvm-11.1.0.src.tar
-    - where cmake
+    - md build\Release\include
+    - cp -r include\llvm-c build\Release\include
 build_script:
-    - md build
     - pushd build
     - >-
         cmake.exe
         -DCMAKE_BUILD_TYPE=Release
-        -DLLVM_TARGETS_TO_BUILD="X86"
         -DLLVM_INCLUDE_TOOLS=ON
         -DLLVM_INCLUDE_EXAMPLES=OFF
         -DLLVM_INCLUDE_TESTS=OFF
@@ -27,7 +26,10 @@ build_script:
         -DLLVM_ENABLE_TERMINFO=OFF
         ./../llvm-11.1.0.src/
     - msbuild -m /p:Configuration=Release llvm-headers.vcxproj
-    - popd
+    - dir Release\lib
+    - dir Release\bin
+    - cp -r include\llvm Release\include
+    # - popd
 artifacts:
     - path: build/Release/**/*
       name: libs
