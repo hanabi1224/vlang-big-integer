@@ -11,6 +11,10 @@ install:
     - dir "C:\Program Files\LLVM\lib"
     - set LLVM_SYS_110_PREFIX="C:\Program Files\LLVM\"
     - echo %LLVM_SYS_110_PREFIX%
+    - ps: iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+    - scoop install rustup
+    - refreshenv
+    - rustup default stable
     - pushd llvm-example
     - cargo run --release
     - popd
