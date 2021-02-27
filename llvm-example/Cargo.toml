@@ -1,0 +1,10 @@
+[package]
+authors = ["hanabi1224"]
+edition = "2018"
+name = "llvm-example"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+llvm-sys = {version = "110", features = []}

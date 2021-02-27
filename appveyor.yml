@@ -7,6 +7,14 @@ branches:
         - main
 build: off
 install:
+    - dir "C:\Program Files\LLVM\bin"
+    - dir "C:\Program Files\LLVM\lib"
+    - dir C:\Libraries\llvm-5.0.0
+    - set LLVM_SYS_110_PREFIX="C:\Program Files\LLVM\"
+    - echo %LLVM_SYS_110_PREFIX%
+    - pushd llvm-example
+    - cargo run --release
+    - popd
     - md build\Release\include
     - set LLVM_SYS_110_PREFIX=%cd%\build\Release
     - echo %LLVM_SYS_110_PREFIX%
