@@ -21,11 +21,7 @@ pub fn (a BigInteger) * (b BigInteger) BigInteger {
 		trim_msb_zeros(mut bits)
 
 		return {
-			sign: if negative {
-				BigIntegerSign.negative
-			} else {
-				BigIntegerSign.positive
-			}
+			sign: if negative { BigIntegerSign.negative } else { BigIntegerSign.positive }
 			bits: bits
 		}
 	}

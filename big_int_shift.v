@@ -64,11 +64,7 @@ pub fn (big BigInteger) rshift(d u64) BigInteger {
 	d_r := d % 32
 
 	if big.bits.len <= d_q {
-		return if big.sign == .negative {
-			minus_one
-		} else {
-			zero
-		}
+		return if big.sign == .negative { minus_one } else { zero }
 	}
 
 	mut result_bits := big.bits[d_q..].clone()
@@ -80,11 +76,7 @@ pub fn (big BigInteger) rshift(d u64) BigInteger {
 	trim_msb_zeros(mut result_bits)
 
 	if result_bits.len == 1 && result_bits[0] == 0 {
-		return if big.sign == .negative {
-			minus_one
-		} else {
-			zero
-		}
+		return if big.sign == .negative { minus_one } else { zero }
 	}
 
 	if big.sign == .negative {

@@ -9,7 +9,7 @@ pub fn (big BigInteger) str() string {
 	// TODO: optimize init size
 	mut builder := strings.new_builder(1)
 	if big.sign == .negative {
-		builder.write('-')
+		builder.write_string('-')
 	}
 
 	base := u32(10)
@@ -49,7 +49,7 @@ pub fn (big BigInteger) str() string {
 		}
 	}
 
-	builder.write(txt)
+	builder.write_string(txt)
 	ret := builder.str()
 	return ret
 }
