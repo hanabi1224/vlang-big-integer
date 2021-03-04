@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          git clone https://github.com/vlang/v /tmp/vlang
+          pushd /tmp/vlang
+          make && ./v -version
+          sudo ./v symlink
+          popd
+          v --version
+      - name: Build
+        run: |
+          v -prod -stats .
+      - name: Test
+        run: |
+          v -prod -stats test .
