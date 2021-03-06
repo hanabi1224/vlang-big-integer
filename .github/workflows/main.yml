@@ -23,7 +23,11 @@ jobs:
           v --version
       - name: Build
         run: |
-          v -prod -stats -shared .
+          v -prod -stats -shared -autofree .
       - name: Test
         run: |
           v -prod -stats test .
+
+        
+        
+        
