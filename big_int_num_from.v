@@ -9,13 +9,13 @@ pub fn from_int(i int) BigInteger {
 }
 
 pub fn from_i64(i i64) BigInteger {
-	sign := if i == 0 {
-		BigIntegerSign.zero
+	if i == 0 {
+		return from_u64_and_sign(0, BigIntegerSign.zero)
+	} else if i < 0 {
+		return from_u64_and_sign(u64(-i), BigIntegerSign.negative)
 	} else {
-		if i < 0 { BigIntegerSign.negative } else { BigIntegerSign.positive }
+		return from_u64_and_sign(u64(i), BigIntegerSign.positive)
 	}
-	abs := if i < 0 { u64(-i) } else { u64(i) }
-	return from_u64_and_sign(abs, sign)
 }
 
 pub fn from_u32(i u32) BigInteger {
