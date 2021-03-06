@@ -38,5 +38,5 @@ println('v2 >> 2 = ${v2.rshift(2)}')
 # Examples
 ## pidigits
 ```
-    v -prod run ./examples/pidigits.v
+    v -prod -autofree run ./examples/pidigits.v
 ```
