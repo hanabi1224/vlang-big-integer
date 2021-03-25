@@ -27,7 +27,13 @@ jobs:
       - name: Test
         run: |
           v -prod -stats test .
-
+      - name: Example
+        run: |
+          pushd examples
+          v run pidigits.v 100
+          v -prod run pidigits.v 100
+          v -prod -autofree run pidigits.v 100
+          v -prod -gc boehm run pidigits.v 100
         
         
         
