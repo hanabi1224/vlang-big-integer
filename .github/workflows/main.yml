@@ -30,6 +30,7 @@ jobs:
       - name: Example
         run: |
           pushd examples
+          sudo apt install -y libgc-dev
           v install hanabi1224.biginteger
           v run pidigits.v 100
           v -prod run pidigits.v 100
