@@ -34,6 +34,7 @@ fn main() {
 			digits_printed++
 			digits_printed_mod_ten := digits_printed % 10
 			if digits_printed_mod_ten == 0 {
+				flush()
 				println('\t:$digits_printed')
 			}
 
@@ -42,6 +43,7 @@ fn main() {
 					for _ in 0 .. (10 - digits_printed_mod_ten) {
 						print(' ')
 					}
+					flush()
 					println('\t:$digits_printed')
 				}
 				return
