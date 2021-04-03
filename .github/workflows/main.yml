@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 jobs:
   build:
@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install
         run: |
+          sudo apt install -y libgc-dev
           git clone https://github.com/vlang/v /tmp/vlang
           pushd /tmp/vlang
           make && ./v -version
@@ -23,19 +24,14 @@ jobs:
           v --version
       - name: Build
         run: |
-          v -prod -stats -shared -autofree .
+          v -prod -stats -shared -cc clang -gc boehm_full .
       - name: Test
         run: |
-          v -prod -stats test .
+          v -prod -stats -cc clang -gc boehm_full test .
       - name: Example
         run: |
           pushd examples
-          sudo apt install -y libgc-dev
           v install hanabi1224.biginteger
-          v run pidigits.v 100
-          v -prod run pidigits.v 100
-          v -prod -autofree run pidigits.v 100
-          v -prod -gc boehm run pidigits.v 100
-        
-        
-        
+          v -cc clang run pidigits.v 100
+          v -cc clang -prod run pidigits.v 100
+          v -cc clang -prod -gc boehm_full run pidigits.v 100
