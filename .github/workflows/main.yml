@@ -23,19 +23,15 @@ jobs:
           v --version
       - name: Build
         run: |
-          v -prod -stats -shared -autofree .
+          v -prod -stats -shared -cc clang -gc boehm_full .
       - name: Test
         run: |
-          v -prod -stats test .
+          v -prod -stats -cc clang -gc boehm_full test .
       - name: Example
         run: |
           pushd examples
           sudo apt install -y libgc-dev
           v install hanabi1224.biginteger
-          v run pidigits.v 100
-          v -prod run pidigits.v 100
-          v -prod -autofree run pidigits.v 100
-          v -prod -gc boehm run pidigits.v 100
-        
-        
-        
+          v -cc clang run pidigits.v 100
+          v -cc clang -prod run pidigits.v 100
+          v -cc clang -prod -gc boehm_full run pidigits.v 100

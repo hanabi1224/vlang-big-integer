@@ -36,6 +36,7 @@ pub fn cmp(a BigInteger, b BigInteger) int {
 	}
 }
 
+[direct_array_access]
 fn cmp_bits(a []u32, b []u32) int {
 	if a.len < b.len {
 		return -1
