@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 jobs:
   build:
@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install
         run: |
+          sudo apt install -y libgc-dev
           git clone https://github.com/vlang/v /tmp/vlang
           pushd /tmp/vlang
           make && ./v -version
@@ -30,7 +31,6 @@ jobs:
       - name: Example
         run: |
           pushd examples
-          sudo apt install -y libgc-dev
           v install hanabi1224.biginteger
           v -cc clang run pidigits.v 100
           v -cc clang -prod run pidigits.v 100
