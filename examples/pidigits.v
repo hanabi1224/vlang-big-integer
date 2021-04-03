@@ -3,6 +3,7 @@ module main
 import os
 import strconv
 import hanabi1224.biginteger
+import strings
 
 fn main() {
 	mut n := 1000
@@ -23,6 +24,12 @@ fn main() {
 	two := biginteger.two
 	ten := biginteger.ten
 
+	mut sb := strings.new_builder(12 + n.str().len)
+	unsafe {
+		defer {
+			sb.free()
+		}
+	}
 	for {
 		u = n1 / d
 		v = n2 / d
@@ -30,21 +37,22 @@ fn main() {
 		v_int := v.int()
 
 		if u_int == v_int {
-			print(u_int)
+			sb.write_b(u_int.str()[0])
 			digits_printed++
 			digits_printed_mod_ten := digits_printed % 10
 			if digits_printed_mod_ten == 0 {
-				flush()
-				println('\t:$digits_printed')
+				sb.write_string('\t:$digits_printed')
+				println(sb.str())
+				sb.go_back_to(0)
 			}
 
 			if digits_printed >= digits_to_print {
 				if digits_printed_mod_ten > 0 {
 					for _ in 0 .. (10 - digits_printed_mod_ten) {
-						print(' ')
+						sb.write_b(` `)
 					}
-					flush()
-					println('\t:$digits_printed')
+					sb.write_string('\t:$digits_printed')
+					println(sb.str())
 				}
 				return
 			}
