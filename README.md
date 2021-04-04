@@ -6,7 +6,7 @@ Big interger impelemented in pure vlang
 [![MIT License](https://img.shields.io/github/license/hanabi1224/vlang-big-integer.svg)](https://github.com/hanabi1224/vlang-big-integer/blob/master/LICENSE)
 
 ## Install
-```
+```bash
 v install hanabi1224.biginteger
 ```
 
@@ -37,6 +37,6 @@ println('v2 >> 2 = ${v2.rshift(2)}')
 
 ## Examples
 ### pidigits
-```
-    v -prod -cc clang -gc boehm_full run ./examples/pidigits.v
+```bash
+v -prod -cc clang -gc boehm_full run ./examples/pidigits.v
 ```
