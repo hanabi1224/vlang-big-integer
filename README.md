@@ -5,17 +5,17 @@ Big interger impelemented in pure vlang
 [![Build status](https://img.shields.io/appveyor/ci/hanabi1224/vlang-big-integer/main.svg)](https://ci.appveyor.com/project/hanabi1224/vlang-big-integer)
 [![MIT License](https://img.shields.io/github/license/hanabi1224/vlang-big-integer.svg)](https://github.com/hanabi1224/vlang-big-integer/blob/master/LICENSE)
 
-# Install
+## Install
 ```
 v install hanabi1224.biginteger
 ```
 
-# Import
+## Import
 ```v
 import hanabi1224.biginteger
 ```
 
-# Usage
+## Usage
 ```v
 v1 := biginteger.from_int(-3)
 // Note that '_' and ',' are allowed, only base-10 is currently supported.
@@ -35,8 +35,8 @@ println('v2 << 32 = ${v2.lshift(32)}')
 println('v2 >> 2 = ${v2.rshift(2)}')
 ```
 
-# Examples
-## pidigits
+## Examples
+### pidigits
 ```
-    v -prod -autofree run ./examples/pidigits.v
+    v -prod -cc clang -gc boehm_full run ./examples/pidigits.v
 ```
