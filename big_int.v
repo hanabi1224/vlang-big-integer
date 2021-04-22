@@ -2,7 +2,7 @@ module biginteger
 
 import math.bits
 
-enum BigIntegerSign {
+pub enum BigIntegerSign {
 	negative = -1
 	zero = 0
 	positive = 1
