@@ -1,11 +1,11 @@
 module biginteger
 
 pub const (
-	zero      = BigInteger{
+	zero = BigInteger{
 		sign: .zero
 		bits: [u32(0)]
 	}
-	one       = BigInteger{
+	one = BigInteger{
 		sign: .positive
 		bits: [u32(1)]
 	}
@@ -13,23 +13,23 @@ pub const (
 		sign: .negative
 		bits: [u32(1)]
 	}
-	two       = BigInteger{
+	two = BigInteger{
 		sign: .positive
 		bits: [u32(2)]
 	}
-	four      = BigInteger{
+	four = BigInteger{
 		sign: .positive
 		bits: [u32(4)]
 	}
-	eight     = BigInteger{
+	eight = BigInteger{
 		sign: .positive
 		bits: [u32(8)]
 	}
-	ten       = BigInteger{
+	ten = BigInteger{
 		sign: .positive
 		bits: [u32(10)]
 	}
-	hex       = BigInteger{
+	hex = BigInteger{
 		sign: .positive
 		bits: [u32(16)]
 	}

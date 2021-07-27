@@ -35,7 +35,7 @@ pub fn from_bits_and_sign(bits []u32, sign BigIntegerSign) BigInteger {
 		return zero
 	}
 
-	return {
+	return BigInteger{
 		sign: sign
 		bits: bits
 	}
@@ -50,7 +50,7 @@ fn from_u64_and_sign(i u64, sign BigIntegerSign) BigInteger {
 	abs_top := u32(abs >> 32)
 	bits := if abs_top == 0 { [u32(abs)] } else { [u32(abs), abs_top] }
 
-	return {
+	return BigInteger{
 		sign: sign
 		bits: bits
 	}

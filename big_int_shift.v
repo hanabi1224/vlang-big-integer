@@ -20,7 +20,7 @@ pub fn (big BigInteger) lshift(d u64) BigInteger {
 		}
 	}
 
-	return {
+	return BigInteger{
 		sign: big.sign
 		bits: result_bits
 	}
@@ -80,7 +80,7 @@ pub fn (big BigInteger) rshift(d u64) BigInteger {
 	}
 
 	if big.sign == .negative {
-		return {
+		return BigInteger{
 			sign: big.sign
 			bits: result_bits
 		} - one
@@ -90,7 +90,7 @@ pub fn (big BigInteger) rshift(d u64) BigInteger {
 		return zero
 	}
 
-	return {
+	return BigInteger{
 		sign: big.sign
 		bits: result_bits
 	}

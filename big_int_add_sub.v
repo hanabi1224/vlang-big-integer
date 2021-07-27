@@ -10,7 +10,7 @@ pub fn (big BigInteger) negative() BigInteger {
 		return big
 	}
 
-	return {
+	return BigInteger{
 		bits: big.bits
 		sign: if big.sign == BigIntegerSign.positive {
 			BigIntegerSign.negative
@@ -37,7 +37,7 @@ pub fn add(a BigInteger, b BigInteger) BigInteger {
 			bits = add_a_b_length_asc(a.bits, b.bits)
 		}
 
-		return {
+		return BigInteger{
 			sign: a.sign
 			bits: bits
 		}
@@ -58,7 +58,7 @@ pub fn add(a BigInteger, b BigInteger) BigInteger {
 			return zero
 		}
 
-		return {
+		return BigInteger{
 			sign: sign
 			bits: bits
 		}
@@ -82,14 +82,39 @@ pub fn substract(a BigInteger, b BigInteger) BigInteger {
 			return substract(b, a).negative()
 		}
 
-		return {
+		return BigInteger{
 			sign: a.sign
 			bits: bits
 		}
 	} else {
 		mut bits := []u32{len: 0}
 		mut sign := BigIntegerSign.zero
-		if a.bits.len >= b.bits.len {
+		if a.bits.len == b.bits.len {
+			mut swap_order := false
+			for i := a.bits.len - 1; i >= 0; i-- {
+				da := a.bits[i]
+				dj := b.bits[i]
+				if da < dj {
+					swap_order = true
+					break
+				} else if da > dj {
+					break
+				}
+			}
+			if swap_order {
+				bits, sign = sub_a_b_length_desc(b.bits, a.bits, if a.sign == BigIntegerSign.negative {
+					false
+				} else {
+					true
+				})
+			} else {
+				bits, sign = sub_a_b_length_desc(a.bits, b.bits, if a.sign == BigIntegerSign.negative {
+					true
+				} else {
+					false
+				})
+			}
+		} else if a.bits.len > b.bits.len {
 			bits, sign = sub_a_b_length_desc(a.bits, b.bits, if a.sign == BigIntegerSign.negative {
 				true
 			} else {
@@ -103,7 +128,7 @@ pub fn substract(a BigInteger, b BigInteger) BigInteger {
 			return zero
 		}
 
-		return {
+		return BigInteger{
 			sign: sign
 			bits: bits
 		}
