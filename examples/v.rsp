@@ -1,1 +1,0 @@
-  -std=gnu99 -O3 -fno-strict-aliasing -flto -DNDEBUG -o "/mnt/c/Users/harlo/git/hanabi1224/vlang-big-integer/examples/app" "/tmp/v/app.tmp.c" -lgc 
