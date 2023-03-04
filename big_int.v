@@ -52,11 +52,11 @@ fn (big BigInteger) clone() BigInteger {
 	}
 }
 
-fn trim_msb_zeros(mut bits []u32) {
-	if bits.len > 0 {
-		for i := bits.len - 1; i > 0; i-- {
-			if bits[i] == 0 {
-				bits.delete_last()
+fn trim_msb_zeros(mut _bits []u32) {
+	if _bits.len > 0 {
+		for i := _bits.len - 1; i > 0; i-- {
+			if _bits[i] == 0 {
+				_bits.delete_last()
 			} else {
 				break
 			}
