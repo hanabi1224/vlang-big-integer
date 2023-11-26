@@ -17,7 +17,7 @@ pub fn (big BigInteger) u64() u64 {
 	return get_u64(big.bits)
 }
 
-[direct_array_access]
+@[direct_array_access]
 fn get_u64(array []u32) u64 {
 	if array.len == 0 {
 		return 0

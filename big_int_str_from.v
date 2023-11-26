@@ -17,7 +17,7 @@ pub fn from_str(str string) !BigInteger {
 		} else if char_code == char_code_underscore || char_code == char_code_comma {
 			// do nothing
 		} else {
-			return error('Error parsing number: $str')
+			return error('Error parsing number: ${str}')
 		}
 	}
 

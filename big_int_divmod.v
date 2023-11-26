@@ -21,10 +21,10 @@ pub fn div_mod(a BigInteger, b BigInteger) ?(BigInteger, BigInteger) {
 
 	if a.sign != b.sign {
 		if a.sign == .negative {
-			quotient, remainder := div_mod(a.negative(), b) ?
+			quotient, remainder := div_mod(a.negative(), b)?
 			return quotient.negative(), remainder.negative()
 		} else {
-			quotient, remainder := div_mod(a, b.negative()) ?
+			quotient, remainder := div_mod(a, b.negative())?
 			return quotient.negative(), remainder
 		}
 	}
@@ -56,7 +56,7 @@ fn div_mod_inner(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigInteger) {
 	}
 }
 
-[inline]
+@[inline]
 fn div_mod_inner_core(a_pos BigInteger, b_pos BigInteger) (BigInteger, BigInteger) {
 	mut quotient := zero
 	leading_zeros_b := b_pos.leading_zeros()

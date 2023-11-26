@@ -44,7 +44,7 @@ pub fn (big BigInteger) str() string {
 		if mod == 0 && remainder == 0 && bits.len == 1 {
 			break
 		} else {
-			txt = '$mod$txt'
+			txt = '${mod}${txt}'
 			bits[0] = remainder
 		}
 	}
